@@ -1,1 +1,1 @@
-Bernard Smith smithber
+This is my assignment-1 submission!
