@@ -12,4 +12,18 @@ int getCost(int cardNumber);
 int cardEffect(int card, int choice1, int choice2, int choice3, 
 	       struct gameState *state, int handPos, int *bonus);
 
+void cECouncil_room(struct gameState *state,int handPos);
+/* action for council_room card
+ * */
+void cEFeast(struct gameState *state,int choice1);
+/* action for Feast card
+ *  */
+
+void cEAdventurer(struct gameState *state);
+/* action for cEAdenturer card
+ *  */
+
+void cEGardens();
+
+void cESmithy(struct gameState *state,int handPos);
 #endif
