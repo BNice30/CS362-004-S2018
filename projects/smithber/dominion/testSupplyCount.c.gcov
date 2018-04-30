@@ -1,0 +1,77 @@
+        -:    0:Source:testSupplyCount.c
+        -:    0:Graph:testSupplyCount.gcno
+        -:    0:Data:testSupplyCount.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/* -----------------------------------------------------------------------
+        -:    2: * Demonstration of how to write unit tests for dominion-base
+        -:    3: * Include the following lines in your makefile:
+        -:    4: *
+        -:    5: * testSupplyCount: testSupplyCount.c dominion.o rngs.o
+        -:    6: *      gcc -o testSupplyCount -g  testSupplyCount.c dominion.o rngs.o $(CFLAGS)
+        -:    7: * -----------------------------------------------------------------------
+        -:    8: */
+        -:    9:
+        -:   10:#include "dominion.h"
+        -:   11:#include "dominion_helpers.h"
+        -:   12:#include <string.h>
+        -:   13:#include <stdio.h>
+        -:   14:#include <assert.h>
+        -:   15:#include "rngs.h"
+        -:   16:
+        -:   17:// set NOISY_TEST to 0 to remove printfs from output
+        -:   18:#define NOISY_TEST 1
+        -:   19:
+function main called 1 returned 100% blocks executed 50%
+        1:   20:int main() {
+        -:   21:    int i;
+        1:   22:    int seed = 1000;
+        1:   23:    int numPlayer = 2;
+        1:   24:    int maxBonus = 10;
+        -:   25:    int p, r, handCount;
+        -:   26:    int bonus;
+        1:   27:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   28:               , remodel, smithy, village, baron, great_hall};
+        -:   29:struct gameState G;
+        -:   30:#if (NOISY_TEST == 1)
+        -:   31:              //  printf("Test player %d with %d treasure card(s) and %d bonus.\n", p, handCount, bonus);
+        -:   32:#endif
+        -:   33://test when there are cards in game
+        1:   34:int supplyC= supplyCount(province,&G);
+call    0 returned 100%
+        1:   35:printf("supplyC = %d\n",supplyC);
+call    0 returned 100%
+        -:   36:
+        1:   37:if(supplyC!=8)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   38:{
+        1:   39:printf("Test Failed\n");
+call    0 returned 100%
+        1:   40:return 0;
+        -:   41:}
+        -:   42:
+        -:   43:#if (NOISY_TEST == 1)
+    #####:   44:                printf("Test supplyCount\n", p, handCount, bonus);
+call    0 never executed
+        -:   45:#endif
+        -:   46://test when no supply of card in game
+    #####:   47:    G.supplyCount[estate] = 0;
+    #####:   48:supplyC= supplyCount(estate,&G);
+call    0 never executed
+    #####:   49:if(supplyC!=0)
+branch  0 never executed
+branch  1 never executed
+        -:   50:{
+    #####:   51:printf("Test Failed\n");
+call    0 never executed
+    #####:   52:return 0;
+        -:   53:}
+        -:   54:
+        -:   55:    
+        -:   56:    
+    #####:   57:    printf("All tests passed!\n");
+call    0 never executed
+        -:   58:    
+    #####:   59:return 0; 
+        -:   60:}

@@ -663,7 +663,7 @@ while(drawntreasure<2){
         cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
         if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
          
- drawntreasure=drawntreasure+2;                  //Bug 3- drawn extra treasure card
+ drawntreasure=drawntreasure+1;                  //Bug 3- drawn extra treasure card
         else{
           temphand[z]=cardDrawn;
           state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
@@ -786,7 +786,7 @@ void cESmithy(struct gameState *state,int handPos){
 	//Bug 2- Card now drawn
 	 for (i = 0; i < 3; i++)
         {
-         // drawCard(currentPlayer, state);
+          drawCard(currentPlayer, state);
         }
 
       //discard card from hand
