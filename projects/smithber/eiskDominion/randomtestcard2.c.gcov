@@ -1,0 +1,210 @@
+        -:    0:Source:randomtestcard2.c
+        -:    0:Graph:randomtestcard2.gcno
+        -:    0:Data:randomtestcard2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include <string.h>
+        -:    4:#include <stdio.h>
+        -:    5:#include <assert.h>
+        -:    6:#include "rngs.h"
+        -:    7:#include <math.h>
+        -:    8:#include <stdlib.h>
+        -:    9:
+function checkCouncil_room called 5 returned 100% blocks executed 79%
+        5:   10:int checkCouncil_room(struct gameState *post, int handPos,int p)
+        -:   11:{
+        -:   12:  struct gameState pre;
+        5:   13:  memcpy (&pre, post, sizeof(struct gameState));
+        -:   14:
+        -:   15:  int r;
+        -:   16:    
+        5:   17: councilRoomEffect(post, handPos, p);
+call    0 returned 100%
+        -:   18:  int i;
+        -:   19: // int currentPlayer = whoseTurn(post);
+        5:   20:  int nextPlayer = p + 1;
+        -:   21:	//cECouncil_room(post, currentPlayer);
+        -:   22:
+        5:   23:  if (nextPlayer > (post->numPlayers - 1)){
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   24:    nextPlayer = 0;
+        -:   25:  }
+        5:   26:pre.handCount[p]=pre.handCount[p]+3;
+        -:   27:    
+        5:   28:    printf("expected: %d , returned: %d\n", pre.handCount[p], post->handCount[p]);
+call    0 returned 100%
+        -:   29:  
+        5:   30:    if(pre.handCount[p]!= post->handCount[p])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   31:	{
+        5:   32:		printf("Error- handCount incorrect\n");
+call    0 returned 100%
+        -:   33:	}
+        -:   34:
+        -:   35:  //  assert(pre.handCount[currentPlayer]+4== post.handCount[currentPlayer]);
+        5:   36:    pre.numBuys++;
+        5:   37:printf("expected: %d , returned: %d\n", pre.numBuys, post->numBuys);
+call    0 returned 100%
+        5:   38:	if(pre.numBuys!=post->numBuys)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   39:	{
+    #####:   40:	printf("Error- numBuys incorrect\n");
+call    0 never executed
+        -:   41:	}
+        -:   42:  
+        -:   43: //   assert(pre.numBuys==post.numBuys);
+        -:   44:/*    pre.discardCount[currentPlayer]--;
+        -:   45:printf("expected: %d , returned: %d\n", pre.discardCount[currentPlayer], post->discardCount[currentPlayer]);
+        -:   46:    
+        -:   47:	if(pre.discardCount[currentPlayer]!=post->discardCount[currentPlayer])
+        -:   48:		{
+        -:   49:		printf("Error- incorrect discard Count\n");
+        -:   50:
+        -:   51:		}
+        -:   52:  //  assert(pre.discardCount[p]==post.discardCount[p]);*/
+        -:   53:    
+        -:   54:   // for (i = 0; i < post->numPlayers; i++)
+        -:   55:     //            {
+        -:   56:       //             if ( i != currentPlayer)
+        -:   57:        ///           {
+        5:   58:                    pre.handCount[nextPlayer]++;  
+        5:   59:    printf("expected: %d , returned: %d\n", pre.handCount[nextPlayer], post->handCount[nextPlayer]);
+call    0 returned 100%
+        -:   60:
+        5:   61:		if(pre.handCount[nextPlayer]!=post->handCount[nextPlayer])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   62:			{
+    #####:   63:				printf("Error- incorrect handcount\n");
+call    0 never executed
+        -:   64:			}  
+        -:   65:                    //assert(pre.handCount[nextPlayer]==post.handCount[nextPlayer]);
+        -:   66:                 //  }
+        -:   67:                // } 
+        5:   68:    return 0;
+        -:   69:    
+        -:   70:}
+        -:   71:
+function main called 1 returned 0% blocks executed 100%
+        1:   72:int main () {
+        -:   73:
+        -:   74:  int i, n, r, p, deckCount, discardCount, handCount;
+        -:   75:  int pos; 
+        1:   76:  int k[10] = {adventurer, council_room, feast, gardens, mine,
+        -:   77:	       remodel, smithy, village, baron, great_hall};
+        -:   78:
+        -:   79:  struct gameState G;
+        -:   80:
+        1:   81:  printf ("Testing Council Room.\n");
+call    0 returned 100%
+        -:   82:
+        1:   83:  printf ("RANDOM TESTS.\n");
+call    0 returned 100%
+        6:   84:for(i=0;i<5;i++){
+branch  0 taken 83%
+branch  1 taken 17% (fallthrough)
+        -:   85:    
+        5:   86:  SelectStream(2);
+call    0 returned 100%
+        5:   87:  PutSeed(3);
+call    0 returned 100%
+        -:   88:
+        -:   89: // for (n = 0; n < 2000; n++) {
+        -:   90:   // for (i = 0; i < sizeof(struct gameState); i++) {
+        -:   91:     // ((char*)&G)[i] = floor(Random() * 256);
+        -:   92:   // }
+        -:   93:  //  p = floor(Random() * 2);
+        -:   94:  
+        5:   95:	memset(&G, 23, sizeof(struct gameState));
+        5:   96:          r = initializeGame(2, k, 1, &G);
+call    0 returned 100%
+        5:   97:	p = floor(Random() * 2);
+call    0 returned 100%
+        5:   98:   G.deckCount[p]= floor(rand() % MAX_DECK);
+call    0 returned 100%
+        5:   99:  G.discardCount[p]=floor(rand() % MAX_DECK);
+call    0 returned 100%
+        5:  100:  G.handCount[p]= floor(rand() % MAX_HAND);
+call    0 returned 100%
+        5:  101:    pos= floor(rand() % G.handCount[p]);
+call    0 returned 100%
+        5:  102:    checkCouncil_room(&G,pos,p);
+call    0 returned 100%
+        -:  103:  
+        -:  104:}
+        1:  105:  printf ("ALL RANDOM TEST COMPLETED\n");
+call    0 returned 100%
+        -:  106:
+        1:  107:exit(0) ; 
+        -:  108:
+        -:  109:  printf ("SIMPLE FIXED TESTS.\n");
+        -:  110:  for (p = 0; p < 2; p++) {
+        -:  111:    for (deckCount = 0; deckCount < 5; deckCount++) {
+        -:  112:      for (discardCount = 0; discardCount < 5; discardCount++) {
+        -:  113:	for (handCount = 0; handCount < 5; handCount++) {
+        -:  114:	  memset(&G, 23, sizeof(struct gameState)); 
+        -:  115:	  r = initializeGame(2, k, 1, &G);
+        -:  116:	  G.deckCount[p] = deckCount;
+        -:  117:	  memset(G.deck[p], 0, sizeof(int) * deckCount);
+        -:  118:	  G.discardCount[p] = discardCount;
+        -:  119:	  memset(G.discard[p], 0, sizeof(int) * discardCount);
+        -:  120:	  G.handCount[p] = handCount;
+        -:  121:	  memset(G.hand[p], 0, sizeof(int) * handCount);
+        -:  122:	  checkCouncil_room(&G,pos,p);
+        -:  123:	}
+        -:  124:      }
+        -:  125:    }
+        -:  126:  }
+        -:  127:
+        -:  128:  return 0;
+        -:  129:}
+        -:  130:
+        -:  131:/*
+        -:  132:void cECouncil_room(int p, struct gameState *state, int handPos){
+        -:  133:
+        -:  134:  int i;
+        -:  135:  int currentPlayer =i;
+        -:  136:  int nextPlayer = currentPlayer + 1;
+        -:  137:
+        -:  138:  if (nextPlayer > (state->numPlayers - 1)){
+        -:  139:    nextPlayer = 0;
+        -:  140:  }
+        -:  141:    assert(pre.handCount[p]+4== post.handCount[p]);
+        -:  142:    pre.numBuys++;
+        -:  143:    assert(pre.numBuys==post.numBuys);
+        -:  144:    pre.discardCount--;
+        -:  145:    assert(pre.discardCount==post.discardCount);
+        -:  146:    
+        -:  147:    for (i = 0; i < state->numPlayers; i++)
+        -:  148:                 {
+        -:  149:                    if ( i != currentPlayer )
+        -:  150:                   {
+        -:  151:                    pre.handCount[i]++;    
+        -:  152:                    assert(pre.handCount[i]==post.handCount[i]);
+        -:  153:                   }
+        -:  154:                 }
+        -:  155:    
+        -:  156:    
+        -:  157:    for (i = 0; i < 4; i++)
+        -:  158:        {
+        -:  159:          drawCard(nextPlayer, state);     //Bug 4- next player draws card rather than current player
+        -:  160:        }
+        -:  161:
+        -:  162:      //+1 Buy
+        -:  163:            state->numBuys++;
+        -:  164:                  //Each other player draws a card
+        -:  165:        for (i = 0; i < state->numPlayers; i++)
+        -:  166:                 {
+        -:  167:                    if ( i != currentPlayer )
+        -:  168:                   {
+        -:  169:                    drawCard(i, state);
+        -:  170:                   }
+        -:  171:                 }
+        -:  172:        //put played card in played card pile
+        -:  173:                discardCard(handPos, currentPlayer, state, 0);*/
+        -:  174:

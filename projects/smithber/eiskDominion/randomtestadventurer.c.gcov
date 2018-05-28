@@ -1,0 +1,193 @@
+        -:    0:Source:randomtestadventurer.c
+        -:    0:Graph:randomtestadventurer.gcno
+        -:    0:Data:randomtestadventurer.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include <string.h>
+        -:    4:#include <stdio.h>
+        -:    5:#include <assert.h>
+        -:    6:#include <math.h>
+        -:    7:#include <stdlib.h>
+        -:    8:#include "rngs.h"
+        -:    9:
+        -:   10:#define DEBUG 0
+        -:   11:#define NOISY_TEST 1
+        -:   12:
+function checkAdventurer called 5 returned 100% blocks executed 100%
+        5:   13:int checkAdventurer(int p, struct gameState *post,int pos, int z, int drawntreasure, int temphand[]){
+        -:   14:    
+        -:   15:    struct gameState pre;
+        5:   16:    memcpy(&pre, post, sizeof(struct gameState));
+        -:   17:        
+        -:   18:    int i;
+        -:   19:   // int currentPlayer= whoseTurn(post);
+        -:   20:  
+        5:   21:    adventurerEffect(post, pos, p ,z,drawntreasure,temphand);
+call    0 returned 100%
+        -:   22:    
+        5:   23:    pre.handCount[p]= pre.handCount[p]+2;
+        5:   24:    printf("expected: %d , returned: %d\n", pre.handCount[p], post->handCount[p]);
+call    0 returned 100%
+        5:   25:  if(pre.handCount[p]!= post->handCount[p]){
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   26:      
+        5:   27:	printf("Error- incorrect handCount\n");
+call    0 returned 100%
+        -:   28:      
+        -:   29:}
+        -:   30:    
+        -:   31:   // assert(pre.handCount==post.handCount);
+        -:   32:    
+        -:   33:    int cardDrawn[2];
+        5:   34:    cardDrawn[0] = post->hand[p][post->handCount[p]-1];
+        5:   35:    cardDrawn[1] = post->hand[p][post->handCount[p]-2];
+        -:   36:    
+        5:   37:    printf("cardDrawn 1: %d, cardDrawn 2:  %d\n",         cardDrawn[0],cardDrawn[1]);
+call    0 returned 100%
+        5:   38:    int drawn=0;
+       15:   39:    for(i=0;i<2;i++)
+branch  0 taken 67%
+branch  1 taken 33% (fallthrough)
+        -:   40:    {
+       10:   41:       if (cardDrawn[i] != copper && cardDrawn[i] != silver && cardDrawn[i] != gold){           
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        5:   42:           drawn ++;
+        -:   43:	 }
+        -:   44:        
+        -:   45:     } 
+        5:   46:    printf("Error- %d treasure cards not drawn\n",drawn);
+call    0 returned 100%
+        5:   47:}
+        -:   48:            
+        -:   49:   
+        -:   50:            
+        -:   51:
+        -:   52:
+        -:   53:
+function main called 1 returned 0% blocks executed 100%
+        1:   54:int main (){
+        -:   55:    
+        -:   56:    int i, n, r, p, deckCount, discardCount, handCount;
+        -:   57:    int temphand[MAX_HAND];
+        -:   58:    int pos;
+        -:   59:    time_t t;
+        1:   60:    srand((unsigned)time(&t));
+call    0 returned 100%
+call    1 returned 100%
+        1:   61:    int drawntreasure=0;
+        1:   62:    int z = 0;// this is the counter for the temp hand
+        -:   63:    
+        -:   64:    
+        1:   65:   int k[10] = {adventurer, council_room, feast, gardens, mine,
+        -:   66:	       remodel, smithy, village, baron, great_hall};
+        -:   67:
+        -:   68:  struct gameState G;
+        -:   69:
+        1:   70:  printf ("Testing Adventure card.\n");
+call    0 returned 100%
+        -:   71:
+        1:   72:  printf ("RANDOM TESTS.\n");
+call    0 returned 100%
+        6:   73: for(i=0;i<5;i++){   
+branch  0 taken 83%
+branch  1 taken 17% (fallthrough)
+        5:   74:  SelectStream(2);
+call    0 returned 100%
+        5:   75:  PutSeed(3);
+call    0 returned 100%
+        -:   76:    
+        5:   77:  initializeGame(2, k, 1, &G); 
+call    0 returned 100%
+        5:   78:  p= floor(Random()*2);
+call    0 returned 100%
+        -:   79:  //int t=whoseTurn(&G);
+        5:   80:  G.deckCount[p]= floor(rand() % MAX_DECK);
+call    0 returned 100%
+        5:   81:  G.discardCount[p]=floor(rand() % MAX_DECK);
+call    0 returned 100%
+        5:   82:  G.handCount[p]= floor(rand() % MAX_HAND);
+call    0 returned 100%
+        5:   83:  pos=floor(rand() * G.handCount[p]);
+call    0 returned 100%
+        5:   84:  checkAdventurer(p, &G, pos, z, drawntreasure, temphand);
+call    0 returned 100%
+        -:   85: }
+        1:   86:  printf ("ALL RANDOM TEST COMPLETED\n");
+call    0 returned 100%
+        -:   87:
+        1:   88:exit(0);
+        -:   89:
+        -:   90:  printf ("SIMPLE FIXED TESTS.\n");
+        -:   91:  for (p = 0; p < 2; p++) {
+        -:   92:    for (deckCount = 0; deckCount < 5; deckCount++) {
+        -:   93:      for (discardCount = 0; discardCount < 5; discardCount++) {
+        -:   94:	for (handCount = 0; handCount < 5; handCount++) {
+        -:   95:	  memset(&G, 23, sizeof(struct gameState)); 
+        -:   96:	  r = initializeGame(2, k, 1, &G);
+        -:   97:	  G.deckCount[p] = deckCount;
+        -:   98:	  memset(G.deck[p], 0, sizeof(int) * deckCount);
+        -:   99:	  G.discardCount[p] = discardCount;
+        -:  100:	  memset(G.discard[p], 0, sizeof(int) * discardCount);
+        -:  101:	  G.handCount[p] = handCount;
+        -:  102:	  memset(G.hand[p], 0, sizeof(int) * handCount);
+        -:  103:	  checkAdventurer(p, &G, pos, z, drawntreasure, temphand);
+        -:  104:	}
+        -:  105:      }
+        -:  106:    }
+        -:  107:  }
+        -:  108:
+        -:  109:  return 0;    
+        -:  110:    
+        -:  111:}
+        -:  112:/*
+        -:  113:
+        -:  114://void cEAdventurer(struct gameState *state){
+        -:  115:
+        -:  116:  int currentPlayer = whoseTurn(state);
+        -:  117:  int nextPlayer = currentPlayer + 1;
+        -:  118:  int temphand[MAX_HAND];// moved above the if statement
+        -:  119:  int drawntreasure=0;
+        -:  120:  int cardDrawn;
+        -:  121:  int z = 0;// this is the counter for the temp hand
+        -:  122:  if (nextPlayer > (state->numPlayers - 1)){
+        -:  123:    nextPlayer = 0;
+        -:  124:
+        -:  125:  }
+        -:  126:
+        -:  127:while(drawntreasure<2){
+        -:  128:
+        -:  129:        if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
+        -:  130:          shuffle(currentPlayer, state);
+        -:  131:        }
+        -:  132:
+        -:  133:        drawCard(currentPlayer, state);
+        -:  134:        cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+        -:  135:
+        -:  136:        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+        -:  137:
+        -:  138:          drawntreasure=drawntreasure+2;                  //Bug 3- drawn extra treasure card
+        -:  139:        else{
+        -:  140:
+        -:  141:          temphand[z]=cardDrawn;
+        -:  142:          state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+        -:  143:          z++;
+        -:  144:        }
+        -:  145:      }
+        -:  146:      while(z-1>=0){
+        -:  147:
+        -:  148:        state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
+        -:  149:
+        -:  150:        z=z-1;
+        -:  151:
+        -:  152:      }
+        -:  153:*/
+        -:  154:      
+        -:  155:

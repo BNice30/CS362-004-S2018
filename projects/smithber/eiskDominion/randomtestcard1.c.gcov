@@ -1,0 +1,157 @@
+        -:    0:Source:randomtestcard1.c
+        -:    0:Graph:randomtestcard1.gcno
+        -:    0:Data:randomtestcard1.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include <string.h>
+        -:    4:#include <stdio.h>
+        -:    5:#include <assert.h>
+        -:    6:#include "rngs.h"
+        -:    7:#include <math.h>
+        -:    8:#include <stdlib.h>
+        -:    9:
+function checkSmithy called 5 returned 100% blocks executed 100%
+        5:   10:void checkSmithy(struct gameState *post, int handPos,int p)
+        -:   11:{
+        -:   12:    struct gameState pre;
+        5:   13:    memcpy (&pre, post, sizeof(struct gameState));
+        -:   14:
+        -:   15://    int i;
+        -:   16://    int currentPlayer= whoseTurn(post);
+        -:   17://    int nextPlayer= currentPlayer + 1;
+        -:   18:
+        -:   19:
+        -:   20:    
+        -:   21: 
+        -:   22:   // printf("Turn %d\n", p);
+        5:   23:	smithyEffect(post,handPos,p);
+call    0 returned 100%
+        5:   24:    pre.handCount[p]++;
+        5:   25:    pre.handCount[p]++;
+        -:   26:    
+        -:   27:    
+        5:   28:    printf("expected: %d , returned: %d\n", pre.handCount[p], post->handCount[p]);
+call    0 returned 100%
+        -:   29:
+        -:   30:    
+        5:   31:       if(pre.handCount[p]!= post->handCount[p]){
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        5:   32:	printf("Error- incorrect handCount\n");
+call    0 returned 100%
+        -:   33:}
+        -:   34:    
+        -:   35:     //   assert(pre.discardCount[p]+1==post->discardCount[p]);
+        -:   36:    
+        5:   37:}
+        -:   38:
+function main called 1 returned 0% blocks executed 100%
+        1:   39:int main () {
+        -:   40:
+        -:   41:  int i, n, p, deckCount, discardCount, handCount;
+        -:   42:
+        1:   43:  int k[10] = {adventurer, council_room, feast, gardens, mine,
+        -:   44:	       remodel, smithy, village, baron, great_hall};
+        -:   45:    
+        -:   46:    time_t t;
+        1:   47:    srand((unsigned)time(&t));
+call    0 returned 100%
+call    1 returned 100%
+        -:   48:
+        -:   49:  struct gameState G;
+        -:   50:  int pos;
+        1:   51:  printf ("Testing Smithy Card.\n");
+call    0 returned 100%
+        -:   52:
+        1:   53:  printf ("RANDOM TESTS.\n");
+call    0 returned 100%
+        6:   54:for(i=0; i<5; i++){
+branch  0 taken 83%
+branch  1 taken 17% (fallthrough)
+        5:   55:  SelectStream(2);
+call    0 returned 100%
+        5:   56:  PutSeed(3);
+call    0 returned 100%
+        -:   57:
+        -:   58:  //for (n = 0; n < 2000; n++) {
+        -:   59:   // for (i = 0; i < sizeof(struct gameState); i++) {
+        -:   60:    //  ((char*)&G)[i] = floor(Random() * 256);
+        -:   61:    //}
+        -:   62:    // 
+        -:   63:     
+        5:   64:    p = floor(Random() * 2);
+call    0 returned 100%
+        5:   65:    initializeGame(2, k, 1, &G);
+call    0 returned 100%
+        -:   66:  // int t=G.whoseTurn;
+        -:   67:   
+        5:   68:  G.deckCount[p]= floor(rand() % MAX_DECK);
+call    0 returned 100%
+        5:   69:  G.discardCount[p]=floor(rand() % MAX_DECK);
+call    0 returned 100%
+        5:   70:  G.handCount[p]= floor(rand() % MAX_HAND);
+call    0 returned 100%
+        5:   71:  pos= floor(rand()% G.handCount[p]);
+call    0 returned 100%
+        -:   72:  //printf ("BEFORE TESTS.\n");
+        5:   73:  checkSmithy(&G,pos,p);
+call    0 returned 100%
+        -:   74:
+        -:   75:        }
+        -:   76:
+        1:   77:  printf ("ALL RANDOM TEST COMPLETE\n");
+call    0 returned 100%
+        -:   78:
+        1:   79:  exit(0);
+        -:   80:
+        -:   81:  printf ("SIMPLE FIXED TESTS.\n");
+        -:   82:    struct gameState S;
+        -:   83:  for (p = 0; p < 2; p++) {
+        -:   84:    for (deckCount = 0; deckCount < 5; deckCount++) {
+        -:   85:      for (discardCount = 0; discardCount < 5; discardCount++) {
+        -:   86:	for (handCount = 0; handCount < 5; handCount++) {
+        -:   87:	//  memset(&S, 23, sizeof(struct gameState)); 
+        -:   88:	 initializeGame(2, k, 1, &S);
+        -:   89:       // t=whoseTurn(&S);
+        -:   90:	 S.deckCount[p] = deckCount;
+        -:   91:	  memset(S.deck[p], 0, sizeof(int) * deckCount);
+        -:   92:	  S.discardCount[p] = discardCount;
+        -:   93:	  memset(S.discard[p], 0, sizeof(int) * discardCount);
+        -:   94:	  S.handCount[p] = handCount;
+        -:   95:	  memset(S.hand[p], 0, sizeof(int) * handCount);
+        -:   96:     checkSmithy(&S,pos,p);
+        -:   97:	}
+        -:   98:      }
+        -:   99:    }
+        -:  100:  }
+        -:  101:
+        -:  102:  return 0;
+        -:  103:}
+        -:  104:
+        -:  105:/*
+        -:  106:
+        -:  107:void cESmithy(struct gameState *state,int handPos){
+        -:  108:
+        -:  109:  int i;
+        -:  110:  int currentPlayer = whoseTurn(state);
+        -:  111:  int nextPlayer = currentPlayer + 1;
+        -:  112:
+        -:  113:   if (nextPlayer > (state->numPlayers - 1)){
+        -:  114:    nextPlayer = 0;
+        -:  115:  }
+        -:  116:	//Bug 2- Card now drawn
+        -:  117:
+        -:  118:	 for (i = 0; i < 3; i++)
+        -:  119:
+        -:  120:        {
+        -:  121:
+        -:  122:         // drawCard(currentPlayer, state);
+        -:  123:
+        -:  124:        }
+        -:  125:
+        -:  126:      //discard card from hand
+        -:  127:
+        -:  128:           discardCard(handPos, currentPlayer, state, 0);
+        -:  129:  */ 

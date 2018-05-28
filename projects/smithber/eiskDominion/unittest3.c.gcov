@@ -1,0 +1,82 @@
+        -:    0:Source:unittest3.c
+        -:    0:Graph:unittest3.gcno
+        -:    0:Data:unittest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/* -----------------------------------------------------------------------
+        -:    2: * Demonstration of how to write unit tests for dominion-base
+        -:    3: * Include the following lines in your makefile:
+        -:    4: *
+        -:    5: * testUpdateCoins: testGetCost.c dominion.o rngs.o
+        -:    6: *      gcc -o testCoss -g  testGetCost.c dominion.o rngs.o $(CFLAGS)
+        -:    7: * -----------------------------------------------------------------------
+        -:    8: */
+        -:    9:
+        -:   10:#include "dominion.h"
+        -:   11:#include "dominion_helpers.h"
+        -:   12:#include <string.h>
+        -:   13:#include <stdio.h>
+        -:   14:#include <assert.h>
+        -:   15:#include "rngs.h"
+        -:   16:
+        -:   17:// set NOISY_TEST to 0 to remove printfs from output
+        -:   18:#define NOISY_TEST 0
+        -:   19:
+function main called 1 returned 100% blocks executed 75%
+        1:   20:int main() {
+        -:   21:    int i;
+        1:   22:    int seed = 1000;
+        1:   23:    int numPlayer = 2;
+        1:   24:    int maxBonus = 10;
+        -:   25:    int p, r, handCount;
+        -:   26:    int bonus;
+        1:   27:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   28:               , remodel, smithy, village, baron, great_hall};
+        -:   29:
+        -:   30:#if (NOISY_TEST == 1)
+        -:   31://                printf("Test player %d with %d treasure card(s) and %d bonus.\n", p, handCount, bonus);
+        -:   32:#endif
+        -:   33://cost of copper
+        1:   34:int cost =getCost(copper);
+call    0 returned 100%
+        -:   35:    #if (NOISY_TEST == 1)
+        -:   36:                printf("copper, expected = 0\n");
+        -:   37:#endif
+        1:   38:if(cost!=0){
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   39:    printf("Incorrect turn!\n");
+call    0 never executed
+        -:   40:}
+        -:   41:
+        -:   42://cost of curse
+        1:   43: cost=getCost(curse);
+call    0 returned 100%
+        -:   44:    #if (NOISY_TEST == 1)
+        -:   45:                printf("curse, expected = 0\n");
+        -:   46:#endif
+        1:   47:if(cost!=0){
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   48:    printf("Incorrect turn!\n");
+call    0 never executed
+        -:   49:}
+        -:   50:
+        -:   51://cost of treasure_map
+        1:   52: cost=getCost(treasure_map);
+call    0 returned 100%
+        -:   53:    #if (NOISY_TEST == 1)
+        -:   54:                printf("treasure_map, expected = 4\n");
+        -:   55:#endif
+        1:   56:if(cost!=4){
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   57:    printf("Incorrect turn!\n");
+call    0 never executed
+        -:   58:}
+        -:   59:    
+        1:   60:    printf("All tests passed!\n");
+call    0 returned 100%
+        -:   61:                       
+        1:   62:return 0;
+        -:   63:  }
